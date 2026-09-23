@@ -46,3 +46,9 @@ Doğrudan oyun motoruyla, bir saniyelik adımlarla üç deterministik strateji d
 - Parsel waiting alanı yol kenarındaki koli stoğudur; farm.stock depo stoğudur. Çiftçi taşıma sonunda waiting'e bırakır; traktör ancak geldiğinde alır. Kamyon satışı gelir yaratır.
 - Kayıt v3; v1/v2 migrasyonu. 10 test geçti: stok/değer korunumu, taşıma aşamaları, bölünmüş zaman eşdeğerliği, offline, migrasyon ve yerleşim.
 - Prototip: 36 parsel/bölge, 1000 parsel seviyesi, traktör hız14/kasa1000, kamyon kasa100. Depo henüz sınırsız. Tek traktör tüm bölgeleri servis eder.
+
+## 2026-09-23 — 0.4 / iki sıra ve gerçek 3D
+
+Üst ve alt parsel aynı toplama durağını paylaşır. Kısıtlı kasa iki tarafa paylaştırılır, kalan kapasite dolu tarafa aktarılır. Eski tek/alt parsel durakları uyumludur. Ürün ve para korunumu, iki sıra yerleşimi ve eski kayıtlar test kapsamında.
+
+Doğrulama: npm test 13/13 geçti; npm run build başarılı. Derlemede Three.js kaynaklı 840 KB JS paket boyutu uyarısı var (gzip 230 KB). Sınır: bölge başına 36 parsel, WebGL gereksinimi; mobil cihaz performansı henüz ölçülmedi. Sonraki adım: görsel cihaz testleri ve lojistik darboğaz göstergesi.

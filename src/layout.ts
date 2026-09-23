@@ -3,8 +3,8 @@ export const TILE=40;
 export const DEPOT={x:4*TILE,y:4*TILE};
 export type Point={x:number;y:number};
 export function parcelLayout(index:number){
-  const pair=Math.floor(index/8),column=Math.floor((index%8)/2),lower=index%2===1;
-  const roadY=(15+pair*21)*TILE;
+  const pair=0,column=Math.floor(index/2),lower=index%2===1;
+  const roadY=15*TILE;
   const x=(8+column*6)*TILE,y=roadY+(lower?4:-7)*TILE;
   return {x,y,width:4*TILE,height:4*TILE,roadY,lower,column,pair,stop:{x:x+2*TILE,y:roadY},crate:{x:x+2*TILE,y:roadY+(lower?1.6:-1.1)*TILE}};
 }

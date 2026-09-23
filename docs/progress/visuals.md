@@ -29,3 +29,9 @@
 - Yeni yol sıraları arasında 21 tile mesafe ayrıldı; kontrol kutuları ve ürünler üst üste binmiyor. 36 parselle otomatik doğrulandı.
 - Kullanılmayan FarmScene dosyaları kaldırıldı; FieldWorld etkin sahnedir.
 - Son tarayıcı kontrolünde çiftçilerin kontrol düğmelerinin üzerinden yürüdüğü görüldü; taşıma rotaları parselin yan koridoruna alındı. GitHub main yayını 87395ff ile başladı; bu küçük düzeltme takip commitidir.
+
+## 2026-09-23 — 0.4 / iki sıra ve gerçek 3D
+
+Three.js gerçek 3D sahnesi, düşük poligonlu depo/araç/çiftçi/bitki modelleri, gölgeler ve kamera eklendi. Tek yol boyunca iki sıra; bitkiler InstancedMesh ile toplu çizilir. Çiftçiler koli noktasına hareket eder. three_models ajanının başlangıç işi koordinatör tarafından tamamlandı.
+
+Doğrulama: npm test 13/13 geçti; npm run build başarılı. Derlemede Three.js kaynaklı 840 KB JS paket boyutu uyarısı var (gzip 230 KB). Sınır: bölge başına 36 parsel, WebGL gereksinimi; mobil cihaz performansı henüz ölçülmedi. Sonraki adım: görsel cihaz testleri ve lojistik darboğaz göstergesi.

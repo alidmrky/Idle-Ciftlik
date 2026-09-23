@@ -50,6 +50,34 @@ test('8h simulation of 144 workers remains practical and finite',()=>{
 });
 test('idle suffix sequence and rounding',()=>{for(const [n,v]of [[1e3,'1K'],[1e6,'1M'],[1e9,'1B'],[1e12,'1T'],[1e15,'1a'],[1e90,'1z'],[1e93,'1aa'],[999999,'1M']] as const)assert.equal(formatNumber(n),v);});
 
+test('one stop shares limited tractor space across both sides and preserves value',()=>{
+ let s=addPlot({...createGame(),coins:1000},'tomato');
+ s.farms.tomato.plots[0].waiting=40;s.farms.tomato.plots[1].waiting=50;
+ const loaded=tick(s,1);
+ assert.equal(loaded.tractor.cargo,30);assert.equal(loaded.tractor.cargoValue,300);
+ assert.equal(loaded.farms.tomato.plots[0].waiting,25);assert.equal(loaded.farms.tomato.plots[1].waiting,35);
+ const sold=tick(s,100);assert.equal(sold.totalSold,90);assert.equal(sold.coins-s.coins,900);
+ s.farms.tomato.plots[0].waiting=3;s.farms.tomato.plots[1].waiting=50;
+ const redistributed=tick(s,1);assert.equal(redistributed.tractor.cargo,30);
+ assert.equal(redistributed.farms.tomato.plots[0].waiting,0);assert.equal(redistributed.farms.tomato.plots[1].waiting,23);
+});
+
+test('tractor rotates by column and handles a lower-side legacy stop',()=>{
+ let s={...createGame(),coins:10000};for(let i=1;i<4;i++)s=addPlot(s,'tomato');
+ for(const p of s.farms.tomato.plots)p.waiting=100;
+ s.tractor.plotIndex=1;
+ const delivered=tick(s,7);assert.equal(delivered.tractor.plotIndex,2);
+ assert.equal(delivered.farms.tomato.plots[0].waiting,85);assert.equal(delivered.farms.tomato.plots[1].waiting,85);
+ const nextLoaded=tick(delivered,5);assert.equal(nextLoaded.farms.tomato.plots[2].waiting,85);assert.equal(nextLoaded.farms.tomato.plots[3].waiting,85);
+});
+
+test('36 parcels stay in two rows and extend horizontally along one road',()=>{
+ const plots=Array.from({length:36},(_,i)=>parcelLayout(i));
+ assert.equal(new Set(plots.map(p=>p.y)).size,2);assert.equal(new Set(plots.map(p=>p.roadY)).size,1);
+ for(let i=0;i<plots.length;i+=2){assert.equal(plots[i].x,plots[i+1].x);assert.deepEqual(plots[i].stop,plots[i+1].stop);if(i>0)assert.ok(plots[i].x>plots[i-2].x);}
+ assert.ok(plots[34].x>plots[6].x);
+});
+
 test('all 36 parcels reserve disjoint drawing/control footprints and orthogonal roads',()=>{
  const plots=Array.from({length:36},(_,i)=>parcelLayout(i));
  for(let i=0;i<plots.length;i++){

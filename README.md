@@ -1,6 +1,6 @@
 # Filiz — Idle Farm
 
-Türkçe, tarayıcıda oynanan bir idle çiftlik prototipi. React + TypeScript + Vite kullanır. Görseller kodla üretilmiş SVG çizimleridir.
+Türkçe, tarayıcıda oynanan bir idle çiftlik prototipi. React + TypeScript + Vite kullanır. Çiftlik Three.js ile gerçek 3D olarak çizilir; modeller kodla üretilir. React oyun arayüzünü yönetir.
 
 ## Çalıştırma
 
@@ -13,7 +13,7 @@ Tarayıcıda terminalin gösterdiği yerel adresi açın. Üretim derlemesi: `np
 
 ## Oyun döngüsü
 
-Tek oyun sahnesinde 2×2'lik bir parselle başlarsın. Ürün olgunlaşınca hasat düğmesiyle parselin yol kenarındaki kolilerine taşırsın. Çiftçi satın alınca kendi parselini hasat eder, ürünü kolilere bırakır ve geri döner. Traktör sadece yollardan ilerler, kolileri kapasitesi kadar toplar ve depoya götürür. Ayrı satış kamyonu depodan pazara gider; altın yalnızca kamyon teslimatında kazanılır. Parseller, verim, traktör kasası/hızı ve kamyon kasası ayrı yatırımlardır. Dünya haritası düğmesiyle bölgelere geçilir; ayrı web sayfası veya sekme yoktur.
+Tek oyun sahnesinde 2×2'lik bir parselle başlarsın. Ürün olgunlaşınca hasat düğmesiyle parselin yol kenarındaki kolilerine taşırsın. Çiftçi satın alınca kendi parselini hasat eder, ürünü kolilere bırakır ve geri döner. Parseller tek yolun üstünde ve altında iki sıra oluşturur; yeni alanlar yalnızca sağa doğru büyür. Traktör sadece yollardan ilerler, aynı sütundaki iki parselin kolilerini kapasitesini paylaşarak toplar ve depoya götürür. Ayrı satış kamyonu depodan pazara gider; altın yalnızca kamyon teslimatında kazanılır. Parseller, verim, traktör kasası/hızı ve kamyon kasası ayrı yatırımlardır. Dünya haritası düğmesiyle bölgelere geçilir; ayrı web sayfası veya sekme yoktur.
 
 Oyun pencerenin tamamını kaplar; sağ üstteki tam ekran düğmesi tarayıcının gerçek tam ekran modunu açar. Biber, çilek ve arıcılık sonraki üretim kollarıdır. Kayıt bu tarayıcıda tutulur ve eski 0.1 kaydı yeni modele taşınır. Çevrimdışı ilerleme en fazla 8 saat hesaplanır. Çiftçisi olmayan parseller bir hasat olgunlaşınca bekler; kendiliğinden toplanmaz.
 
@@ -22,7 +22,8 @@ Oyun pencerenin tamamını kaplar; sağ üstteki tam ekran düğmesi tarayıcın
 - `src/game.ts`: React'tan bağımsız ekonomi, zaman simülasyonu, kayıt ve sayı biçimlendirme.
 - `src/types.ts`: Parsel, çiftçi ve traktör durumları için ortak veri sözleşmesi.
 - `src/App.tsx`: arayüz, zamanlayıcı ve tarayıcı depolaması.
-- `src/FieldWorld.tsx`: görünmez tile ızgarası üzerinde çizilen çiftlik, çiftçiler, koli durakları ve araçlar.
+- `src/ThreeFarm.tsx`: gerçek 3D çiftlik, kamera, animasyon ve dünyaya bağlı etkileşimler.
+- `src/threeModels.ts`: düşük poligonlu çiftçi, tarla bitkileri, depo ve araç modelleri.
 - `src/layout.ts`: 40px mantıksal tile ölçüsü, çakışmayan parsel/kontrol alanları, dik açılı yollar ve rota interpolasyonu.
 - `src/FarmMap.tsx`: parsel sayısına göre dolan bölgeler ve yeni bölge açılımları.
 - `docs/progress/`: ajanların sorumluluk ve ilerleme kayıtları.
@@ -37,3 +38,7 @@ Her geliştirmede ilgili ajan `docs/progress/` içindeki kendi dosyasına yapıl
 ## Prototip sınırları
 
 Her bölgede en fazla 36 parsel vardır. Büyük çiftlikte yakınlaştırma ve sürükleme kullanılır. Tek traktör açık bölgeler arasında sırayla dolaşır; bulunduğu bölge depo göstergesinde yazılır. Depo henüz kapasitesizdir. Mevsimler, hayvancılık ve seralar planlanmaktadır. Kayıt sürümü 3, önceki 1/2 kayıtlarını okuyabilir. Gerçek sınırsız sayı sistemi henüz yoktur.
+
+## 3D kontroller
+
+Sol tuşla sürükle: kaydır. Sağ tuşla sürükle: kamerayı döndür. Tekerlek: yakınlaştır. Parseli tıklayarak hasat, seviye ve çiftçi panelini aç. Alt araç düğmesinden depo/araç geliştirmelerine, sağ okla yeni parselin konumuna git. Dokunmatikte tek parmak kaydırır; iki parmak yakınlaştırır/döndürür. WebGL destekleyen tarayıcı gerekir.

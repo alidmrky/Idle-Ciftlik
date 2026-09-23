@@ -33,3 +33,7 @@
 ## Tasarım ilkeleri
 
 İlk oyun reklam veya gerçek para satın alımı olmadan dengelenir. Bölge açılımları yalnızca yeni bir fiyat etiketi değil, üretimde yeni kararlar sunmalıdır. Sonsuz seviye fikri matematik ve içerik ölçeklemesi gerektirir; mevcut prototip bunu tamamlanmış saymaz. K → M → B → T → a → b … → z → aa → ab sırası binlik basamaklarla kullanılır.
+
+## 0.4 — Gerçek 3D çiftlik
+
+Three.js sahnesi, gölgeli düşük poligonlu modeller, döndürülebilir kamera, tam iki sıra ve yatay genişleme eklendi. Aynı durakta üst/alt koliler arasında kapasite paylaşılır. Parsel kontrolleri seçimle açılır. Bitkiler GPU instancing ile çizilir. İleri hedef: depo doluluk ve lojistik darboğaz göstergeleri.

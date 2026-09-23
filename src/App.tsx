@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import FarmScene from './FieldWorld';
+import FarmScene from './ThreeFarm';
 import FarmMap from './FarmMap';
 import { CROPS, createGame, tick, upgrade, hireWorker, unlockCrop, productionRate, formatNumber, loadGame, serializeGame, addPlot, harvestPlot, upgradeTractor, upgradeTruck } from './game';
 import type { CropId, GameState } from './types';
@@ -96,7 +96,7 @@ export default function App() {
     <footer className="game-bottom">
       <div className="game-guidance"><span className="goal-label">SIRADAKİ ADIM</span><strong>{goal}</strong><p>Çiftçi → traktör → depo → satış kamyonu</p></div>
       <button className="map-toggle" onClick={()=>setShowMap(v=>!v)} aria-label={showMap?'Çiftliğe dön':'Dünya haritasını aç'}><svg viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="m3 7 9-3 8 3 9-3v21l-9 3-8-3-9 3ZM12 4v21M20 7v21"/></svg><span>{showMap?'Çiftliğe dön':'Dünya haritası'}<small>{showMap?'TARLALARIM':'FİLİZ VADİSİ'}</small></span></button>
-      <span className="prototype-label">PROTOTİP 0.3</span>
+      <span className="prototype-label">PROTOTİP 0.4</span>
     </footer>
     {notice && <div className="game-toast" role="status"><span>✦</span>{notice}<button aria-label="Bildirimi kapat" onClick={() => setNotice('')}>×</button></div>}
   </main>;

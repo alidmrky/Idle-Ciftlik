@@ -55,11 +55,13 @@ export const truckCapacity = (s:GameState) => Math.floor(60*1.7**(s.truck.level-
 export const truckUpgradeCost = (s:GameState) => Math.ceil(300*1.8**(s.truck.level-1));
 export function upgradeTruck(s:GameState):GameState { if(s.coins<truckUpgradeCost(s)||s.truck.level>=100)return s;const n=copy(s);n.coins-=truckUpgradeCost(s);n.truck.level++;return n; }
 function nextPickup(s:GameState) {
-  const slots=CROPS.flatMap(({id})=>s.farms[id].unlocked?s.farms[id].plots.map((p,index)=>({id,index,p})):[]);
-  const current=slots.findIndex(p=>p.id===s.tractor.cropId&&p.index===s.tractor.plotIndex);
+  // A stop serves the upper and lower parcel together. Rotate over columns,
+  // so a busy near-side parcel cannot starve later columns or other crops.
+  const slots=CROPS.flatMap(({id})=>s.farms[id].unlocked?s.farms[id].plots.flatMap((_p,index)=>index%2===0?[{id,index}]:[]):[]);
+  const current=slots.findIndex(p=>p.id===s.tractor.cropId&&p.index===Math.floor(s.tractor.plotIndex/2)*2);
   for(let offset=1;offset<=slots.length;offset++) {
     const slot=slots[(Math.max(0,current)+offset)%slots.length];
-    if(slot.p.waiting>EPS||slot.p.carrying>EPS||slot.p.workerPhase==='harvesting')return slot;
+    if(s.farms[slot.id].plots.slice(slot.index,slot.index+2).some(p=>p.waiting>EPS||p.carrying>EPS||p.workerPhase==='harvesting'))return slot;
   }
   return null;
 }
@@ -87,16 +89,20 @@ function settle(s:GameState) {
     else t.phase='loading';
   }
   if(t.phase==='loading'){
-    const p=s.farms[t.cropId].plots[t.plotIndex];
+    const first=Math.floor(t.plotIndex/2)*2;
+    const plots=s.farms[t.cropId].plots.slice(first,first+2);
     let room=Math.max(0,tractorCapacity(s)-t.cargo);
-    const manual=Math.min(p.waiting,room);p.waiting-=manual;room-=manual;t.cargo+=manual;
-    if(p.workerPhase==='carrying'&&p.workerProgress>=1-EPS&&room>EPS){
-      const take=Math.min(p.carrying,room);p.carrying-=take;t.cargo+=take;
-      if(p.carrying<=EPS){p.carrying=0;p.workerPhase='returning';p.workerProgress=0;}
+    let waiting=plots.filter(p=>p.waiting>EPS);
+    while(waiting.length&&room>EPS){
+      const share=room/waiting.length;
+      for(const p of waiting){
+        const take=Math.min(p.waiting,share);p.waiting-=take;room-=take;t.cargo+=take;
+      }
+      waiting=waiting.filter(p=>p.waiting>EPS);
     }
     t.cargoValue=t.cargo*data(t.cropId).basePrice;
-    if(t.cargo===0&&!(p.workerPhase==='carrying'||p.workerPhase==='harvesting')){
-      const next=nextPickup(s);if(next&&(next.id!==t.cropId||next.index!==t.plotIndex)){t.phase='outbound';t.progress=0;}
+    if(t.cargo===0&&!plots.some(p=>p.workerPhase==='carrying'||p.workerPhase==='harvesting')){
+      const next=nextPickup(s);if(next&&(next.id!==t.cropId||next.index!==first)){t.phase='outbound';t.progress=0;}
     }
   }
   const truck=s.truck;

@@ -51,3 +51,9 @@
 - 10/10 test ve üretim derlemesi başarılı. Tarayıcıda yeni kayıtla 10 domates elle hasat edildi; kamyon satışı sonrasında bakiye 100→200 oldu. İlk çiftçi alımı, otomatik hasat, harita ve bölge kilitleri kontrol edildi.
 - 390×844 görünümde scrollWidth390/bodyHeight844: sayfa taşması yok. Büyük çiftlikler kamera yakınlaştırma ve sürükleme ile incelenir.
 - GitHub hedefi kullanıcı tarafından yetkilendirildi: alidmrky/Idle-Ciftlik. Uzak depo kontrolünde henüz dal/commit yoktu.
+
+## 2026-09-23 — 0.4 / iki sıra ve gerçek 3D
+
+paired_pickups ve three_models görevleri ajanlara bölündü; kullanım limiti sonrası entegrasyon koordinatörce tamamlandı. Mevcut kayıtlar korunarak 3D sahne App içine bağlandı. Tarayıcıda parsel paneli, araç paneli ve seviye yükseltme çalıştı; konsolda hata görülmedi. Görüntü yakalama aracı zaman aşımı verdiği için piksel düzeyinde görsel doğrulama tamamlanamadı.
+
+Doğrulama: npm test 13/13 geçti; npm run build başarılı. Derlemede Three.js kaynaklı 840 KB JS paket boyutu uyarısı var (gzip 230 KB). Sınır: bölge başına 36 parsel, WebGL gereksinimi; mobil cihaz performansı henüz ölçülmedi. Sonraki adım: görsel cihaz testleri ve lojistik darboğaz göstergesi.

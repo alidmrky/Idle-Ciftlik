@@ -24,3 +24,9 @@
 - Alt ürün kartları kaldırıldı, dünya haritası ikon düğmesi eklendi. FarmMap aynı ekranda bölge açar/seçer; her bölgede 36 parsel dilimi görünür.
 - HUD tam ekran, kayıt, bakiye ve üretim göstergelerini korur. Üretim göstergesi teslim edilen gelir değildir.
 - Yeni rehber zinciri çiftçi→traktör→depo→kamyon. Depo ekranı traktörün hangi bölgede olduğunu gösterir.
+
+## 2026-09-23 — 0.4 / iki sıra ve gerçek 3D
+
+Seçilen parselde açılan geliştirme/hasat/çiftçi paneli, sürekli erişilebilir araç menüsü, kaydırma/döndürme/yakınlaştırma ve yeni alana odaklanma eklendi. React arayüz saf ekonomi çekirdeğinden ayrı kaldı.
+
+Doğrulama: npm test 13/13 geçti; npm run build başarılı. Derlemede Three.js kaynaklı 840 KB JS paket boyutu uyarısı var (gzip 230 KB). Sınır: bölge başına 36 parsel, WebGL gereksinimi; mobil cihaz performansı henüz ölçülmedi. Sonraki adım: görsel cihaz testleri ve lojistik darboğaz göstergesi.
