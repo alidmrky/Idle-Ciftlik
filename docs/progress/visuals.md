@@ -28,3 +28,4 @@
 - layout.ts tüm parselleri yolun iki tarafına yerleştiriyor. Yol düğümleri çizim ve araç hareketi için aynı kaynak.
 - Yeni yol sıraları arasında 21 tile mesafe ayrıldı; kontrol kutuları ve ürünler üst üste binmiyor. 36 parselle otomatik doğrulandı.
 - Kullanılmayan FarmScene dosyaları kaldırıldı; FieldWorld etkin sahnedir.
+- Son tarayıcı kontrolünde çiftçilerin kontrol düğmelerinin üzerinden yürüdüğü görüldü; taşıma rotaları parselin yan koridoruna alındı. GitHub main yayını 87395ff ile başladı; bu küçük düzeltme takip commitidir.
